@@ -1,18 +1,34 @@
 import React, { Component } from 'react';
 import TodoModel from '../models/Todo';
+import Todos from '../components/Todos';
 
 class TodosContainer extends Component {
-    render() {
-        TodoModel.all()
-            .then(res => {
-                console.log(res);
+    constructor() {
+        super()
+        this.state = {
+            todos: []
+        }
+    }
+    componentDidMount() {
+        this.fetchData()
+    }
+    fetchData() {
+        TodoModel.all().then((res) => {
+            this.setState({
+                todos: res.data,
+                todo: ''
             });
+            console.log(111, res)
+        })
+    }
+    render() {
         return (
-            <div className='todosContainer'>
-                <h1>I am the TodosContainer page</h1>
+            <div className="todosComponent">
+                <Todos
+                    todos={this.state.todos} />
             </div>
-        );
+        )
     }
 }
 
-export default TodosContainer;
+export default TodosContainer
